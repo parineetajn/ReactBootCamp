@@ -9,22 +9,14 @@ import {createStore,applyMiddleware,compose,combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import burgerBuilderReducer from './store/reducers/BurgerBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
-// const logger = store =>{
-//   return next =>{
-//     return action =>{
-//       console.log('[MiddleWare] Dispatching..',action);
-//       const result = next(action);
-//       console.log('[middleWare] next state.. ',store.getState());
-//       return result;
-//     }
-//   }
-// }
-const composeEnhancers =  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.NODE_ENV==='development' ?window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__:null || compose;
 
 const rootReducer=combineReducers({
     burgerBuilder: burgerBuilderReducer,
-    order: orderReducer
+    order: orderReducer,
+    auth:authReducer
 });
 
 const store=createStore(rootReducer,composeEnhancers(applyMiddleware(thunk)));
